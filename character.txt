@@ -1,0 +1,68 @@
+{
+	"username": "moraday",
+	"password" : "mypassword",
+
+	 "personal": [
+	     {
+		 "firstname": "Pablo",
+		 "lastname": "Marquez",
+		 "email": "gulfas@gmail.com",
+		 "dob": "01/01/1900",
+		 "pob": "Guadalajara",
+		 "nationality": "argentinean",
+		 "favoritegame": "argentum",
+		 "mobile": "777777777"
+	     }
+	  ]
+	,
+
+	 "passwordrecovery": [
+	     {
+		 "secretquestion1": "Cual es el nombre de mi primer mascota?",
+		 "secretanswer1": "Satanas",
+		 "secretquestion2": "Cual es mi color favorito?",
+		 "secretanswer2": "Rojo",
+		 "secretquestion3": "Pelicula preferida?",
+		 "secretanswer3": "Rocky"
+	     }
+	  ]
+	,
+
+
+	 "homeaddress": [
+	     {
+		 "addressline1": "avenida sarmiento",
+		 "addressline2": "Flat 24 2nd Floor",
+		 "postcode": "EC1V 9EU",
+		 "phone": "777777777",
+		 "city": "London",
+		 "country": "United Kingdom"
+	     }
+	  ]
+
+	,
+	 "billingaddress": [
+	     {
+		 "addressline1": "avenida sarmiento",
+		 "addressline2": "24",
+		 "type": "residential",
+		 "postcode": "EC1V 9EU",
+		 "phone": "777777777",
+		 "city": "London",
+		 "country": "United Kingdom"
+	     }
+	  ]
+	,
+
+	 "paymentcard": [
+	     {
+		 "type": "visa/delta/electron",
+		 "number": "1832108310238012310",
+		 "holdername": "Pablo Marquez",
+		 "validfrom": "01/2013",
+		 "securitycode": "666",
+		 "expdate": "09/2014"
+	     }
+	  ]
+
+}
