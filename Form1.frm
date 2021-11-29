@@ -408,48 +408,6 @@ Private Sub Winsock1_DataArrival(ByVal BytesTotal As Long)
     End Select
 End Sub
 
-'HarThaoS: Convierto el str en arr() bytes
-Public Function Str2ByteArr(ByVal str As String, ByRef arr() As Byte, Optional ByVal length As Long = 0)
-    Dim i As Long
-    Dim asd As String
-    If length = 0 Then
-        ReDim arr(0 To (Len(str) - 1))
-        For i = 0 To (Len(str) - 1)
-            arr(i) = Asc(Mid(str, i + 1, 1))
-        Next i
-    Else
-        ReDim arr(0 To (length - 1)) As Byte
-        For i = 0 To (length - 1)
-            arr(i) = Asc(Mid(str, i + 1, 1))
-        Next i
-    End If
-    
-End Function
-
-Public Function ByteArr2String(ByRef arr() As Byte) As String
-    
-    Dim str As String
-    Dim i As Long
-    For i = 0 To UBound(arr)
-        str = str + Chr(arr(i))
-    Next i
-    
-    ByteArr2String = str
-    
-End Function
-
-Public Function hiByte(ByVal w As Integer) As Byte
-    Dim hi As Integer
-    If w And &H8000 Then hi = &H4000
-    
-    hiByte = (w And &H7FFE) \ 256
-    hiByte = (hiByte Or (hi \ 128))
-    
-End Function
-
-Public Function LoByte(w As Integer) As Byte
- LoByte = w And &HFF
-End Function
 
 Public Function MakeInt(ByVal LoByte As Byte, _
    ByVal hiByte As Byte) As Integer

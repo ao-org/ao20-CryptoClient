@@ -39,14 +39,14 @@ Public Sub AccountLoginRequest()
     Dim encrypted_password_b64 As String
     
     
-    encrypted_username_b64 = ModConnection.Encrypt(cnvHexStrFromBytes(public_key), username)
-    encrypted_password_b64 = ModConnection.Encrypt(cnvHexStrFromBytes(public_key), password)
+    encrypted_username_b64 = AO20CryptoSysWrapper.Encrypt(cnvHexStrFromBytes(public_key), username)
+    encrypted_password_b64 = AO20CryptoSysWrapper.Encrypt(cnvHexStrFromBytes(public_key), password)
     
     Call AddtoRichTextBox("Username: " & encrypted_username_b64, 255, 255, 255)
     Call AddtoRichTextBox("Password: " & encrypted_password_b64, 255, 255, 255)
     
-    Call Form1.Str2ByteArr(encrypted_username_b64, encrypted_username)
-    Call Form1.Str2ByteArr(encrypted_password_b64, encrypted_password)
+    Call Str2ByteArr(encrypted_username_b64, encrypted_username)
+    Call Str2ByteArr(encrypted_password_b64, encrypted_password)
     
     
     Dim len_username As Integer
@@ -62,20 +62,18 @@ Public Sub AccountLoginRequest()
     login_request(1) = &HDE
     login_request(2) = &HAD
     'Siguientes 2 bytes indican tamaño total del paquete
-    login_request(3) = Form1.hiByte(packet_size)
-    login_request(4) = Form1.LoByte(packet_size)
+    login_request(3) = hiByte(packet_size)
+    login_request(4) = LoByte(packet_size)
     
     'Los siguientes 2 bytes son el SIZE_ENCRYPTED_USER
-    
-    
-    login_request(5) = Form1.hiByte(len_username)
-    login_request(6) = Form1.LoByte(len_username)
+    login_request(5) = hiByte(len_username)
+    login_request(6) = LoByte(len_username)
     Call Form1.CopyBytes(encrypted_username, login_request, len_username, 7)
     
     offset_login_request = 7 + UBound(encrypted_username)
         
-    login_request(offset_login_request + 1) = Form1.hiByte(len_password)
-    login_request(offset_login_request + 2) = Form1.LoByte(len_password)
+    login_request(offset_login_request + 1) = hiByte(len_password)
+    login_request(offset_login_request + 2) = LoByte(len_password)
     
     Call Form1.CopyBytes(encrypted_password, login_request, len_password, offset_login_request + 3)
     
@@ -196,17 +194,17 @@ Public Sub HandleOpenSession(ByVal BytesTotal As Long)
     
     Form1.Winsock1.GetData encrypted_token, 64
             
-    Call Form1.Str2ByteArr("pablomarquezARG1", secret_key_byte)
+    Call Str2ByteArr("pablomarquezARG1", secret_key_byte)
     Dim decrypted_session_token As String
      
-    decrypted_session_token = Decrypt("7061626C6F6D61727175657A41524731", cnvStringFromHexStr(cnvToHex(encrypted_token)))
+    decrypted_session_token = AO20CryptoSysWrapper.Decrypt("7061626C6F6D61727175657A41524731", cnvStringFromHexStr(cnvToHex(encrypted_token)))
     Call AddtoRichTextBox("Decripted_session_token: " & decrypted_session_token, 255, 255, 255, False)
         
     public_key = Mid(decrypted_session_token, 1, 16)
     
     Call AddtoRichTextBox("Public key:" & CStr(public_key), 255, 255, 255, False)
     
-    Form1.Str2ByteArr decrypted_session_token, public_key, 16
+    Str2ByteArr decrypted_session_token, public_key, 16
     Form1.e_state = State.SessionOpen
     
 End Sub
@@ -335,42 +333,3 @@ Public Sub HandleAccountActivate(ByVal BytesTotal As Long)
         
     Form1.e_state = State.SessionOpen
 End Sub
-
-Public Function Encrypt(ByVal hex_key As String, ByVal plain_text As String) As String
-    Dim iv() As Byte
-    Dim key() As Byte
-    Dim plain_text_byte() As Byte
-    
-    Dim algstr As String
-    algstr = "Aes128/CFB/nopad"
-    key = cnvBytesFromHexStr(hex_key)
-    iv = key
-    
-    ' "Now is the time for all good men to"
-    
-    plain_text = cnvHexStrFromString(plain_text)
-    plain_text_byte = cnvBytesFromHexStr(plain_text)
-    Encrypt = cnvToBase64(cipherEncryptBytes2(plain_text_byte, key, iv, algstr))
-   
-End Function
-
-
-Public Function Decrypt(ByVal hex_key As String, ByVal encrypted_text_b64 As String) As String
-    Dim iv() As Byte
-    Dim key() As Byte
-    Dim encrypted_text_byte() As Byte
-    Dim decrypted_text() As Byte
-    Dim encrypted_text_hex As String
-    Dim algstr As String
-    algstr = "Aes128/CFB/nopad"
-    key = cnvBytesFromHexStr(hex_key)
-    iv = key
-    
-    ' "Now is the time for all good men to"
-    
-    encrypted_text_byte = cnvFromBase64(encrypted_text_b64)
-    encrypted_text_hex = cnvToHex(encrypted_text_byte)
-    encrypted_text_byte = cnvBytesFromHexStr(encrypted_text_hex)
-    Decrypt = cnvStringFromHexStr(cnvToHex(cipherDecryptBytes2(encrypted_text_byte, key, iv, algstr)))
-   
-End Function
