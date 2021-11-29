@@ -1,10 +1,11 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Reference=*\G{28C2F8DA-0DE7-4F49-8244-FE570E04329D}#1.0#0#..\..\source\repos\Crypto2\CryptoHelper\CryptoHelper\bin\Release\CryptoHelper.tlb#CryptoHelper
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
 Object={248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0; MSWINSCK.OCX
 Object={3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0; richtx32.ocx
 Form=Form1.frm
 Module=ModConnection; ModConnection.bas
+Module=basCryptoSys; ..\..\..\..\..\Program Files (x86)\CryptoSys\VBA\basCryptoSys.bas
+Module=TestAPIvba; ..\..\..\..\..\Program Files (x86)\CryptoSys\VBA\TestAPIvba.bas
 IconForm="Form1"
 Startup="Form1"
 ExeName32="Client.exe"
