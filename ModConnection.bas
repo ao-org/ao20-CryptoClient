@@ -1,8 +1,15 @@
 Attribute VB_Name = "ModConnection"
 Option Explicit
 
-'Public CH As CryptoHelper.CryptoHelper
-'Public CHinterface As CryptoHelper.ICryptoHelper
+Public Enum State
+    Idle = 0
+    RequestOpenSession
+    SessionOpen
+    RequestAccountLogin
+    RequestAccountCreate
+    RequestActivateAccount
+End Enum
+
 Public public_key() As Byte
 
 Public Sub OpenSessionRequest()

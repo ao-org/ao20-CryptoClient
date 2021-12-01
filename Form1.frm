@@ -230,6 +230,7 @@ Begin VB.Form Form1
       _Version        =   393217
       BackColor       =   -2147483647
       BorderStyle     =   0
+      Enabled         =   -1  'True
       ScrollBars      =   2
       TextRTF         =   $"Form1.frx":0000
    End
@@ -309,15 +310,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Public Enum State
-    Idle = 0
-    RequestOpenSession
-    SessionOpen
-    RequestAccountLogin
-    RequestAccountCreate
-    RequestActivateAccount
-End Enum
-
 Public e_state As State
 
 Private Sub cmdCreateAccount_Click()
@@ -356,7 +348,6 @@ Private Sub Form_Load()
     
     If Winsock1.State <> 7 Then
         Call connectToLoginServer
-        Form1.timerConnection.Enabled = True
         If Winsock1.State <> 7 Then
             lblStatus.ForeColor = vbYellow
             lblStatus.Caption = "Connecting..."
@@ -367,14 +358,6 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub timerConnection_Timer()
-    If Winsock1.State = 7 Then
-        timerConnection.Enabled = False
-        lblStatus.Caption = "Connected"
-        lblStatus.ForeColor = vbGreen
-        Call OpenSessionRequest
-    End If
-End Sub
 Private Function testDLL()
      Dim encrypted_string As String
     Dim decrypted_string As String
@@ -394,6 +377,12 @@ Private Function testDLL()
     Debug.Print "Decrypted: " & decrypted_string
     
 End Function
+
+Private Sub Winsock1_Connect()
+    lblStatus.Caption = "Connected"
+    lblStatus.ForeColor = vbGreen
+    Call OpenSessionRequest
+End Sub
 
 Private Sub Winsock1_DataArrival(ByVal BytesTotal As Long)
     Select Case e_state
